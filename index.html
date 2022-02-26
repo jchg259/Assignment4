@@ -2,21 +2,90 @@
 <html lang="en">
     <head>
     <meta charset="UTF-8">
+    <title> Table of Data</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, inital-scale=1.0">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        svg{
+            width: 800px;
+            height: 600px;
+            display: black;
+            margin: auto;
+        }
+        table{
+            border-collapse: separate;
+            border: 1px solid black;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+    </style>
     </head>
 </head>
 <body>
+<table>
 <script>
 
     const url = "https://raw.githubusercontent.com/umassdgithub/Week-5-Part-2/main/Exercise/data_sample.csv"
-    d3.csv(url).then(data=>(
-        console.log(data)
-    ))
+    d3.csv(url).then(data=>{
 
+        let m_data = data.map(d=> {
+            return {Date: new Date(d['date']), 
+            E_Cost: d['EstimatedCost'], 
+            R_Material: d['RawMaterial'], 
+            W_ship: d['Workmanship'], 
+            Y_Storage: d['YearlyStorage']
+            }
+        //})
+//You'll see below that I tried to us d3 to create a table with data binding
+        console.table(m_data)
+        let tr = d3.select("body")
+        .append("table")
+        .selectAll("tr")
+        .data(matrix)
+        .enter()
+        .append("tr")
+
+        let td = tr.selectAll("td")
+        .data(function(d) {
+            console.log(data);
+            return data;
+        })
+        .enter()
+        .appaend("td")
+        .text(function(d) {
+            console.log(data);
+            return data;
+        })
+        
+    })
 
 </script>
-
+ /*   <tr> 
+        <th> Date </th>
+        <th> Estimated Cost </th>
+        <th> Raw Material </th>
+        <th> Workmanship </th>
+        <th> Yearly Storage </th>
+        <th> Actual Cost </th>
+        <th> Sold Price </th>
+        <th> Margin of Profit </th>
+    </tr>
+    
+    for (int i = 0; i < data.Tables[0].Rows.Count; i++) {
+        <tr>
+            <td> data.Tables[0].Rows[i]['date'].ToString()</td>
+            <td> data.Tables[0].Rows[i]['EstimatedCost']</td> 
+            <td> data.Tables[0].Rows[i]['RawMaterial']</td> 
+            <td> data.Tables[0].Rows[i]['Worksmanship']</td>
+            <td> data.Tables[0].Rows[i]['YearlyStorage']</td>
+            <td> data.Tables[0].Rows[i]['RawMaterial'] + data.Tables[0].Rows[i]['Worksmanship'] + data.Tables[0].Rows[i]['YearlyStorage']/12</td>
+            <td> data.Tables[0].Rows[i]['EstimatedCost'] * 1.1</td>
+            <td> (data.Tables[0].Rows[i]['RawMaterial'] + data.Tables[0].Rows[i]['Worksmanship'] + data.Tables[0].Rows[i]['YearlyStorage']/12) - (data.Tables[0].Rows[i]['EstimatedCost'] * 1.1)</td>
+        </tr>
+    }
+*/
+</table>
 </body>
-    </html>
+</html>
